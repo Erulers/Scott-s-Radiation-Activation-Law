@@ -1,0 +1,796 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\onehalfspacing
+
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    justification=centering
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{\textbf{Scott's Radiation Activation Law}}
+\author{Jaxson Scottlevoy Freeman\\
+\small Independent student researcher\\
+\small Corresponding author: \texttt{jaxsonstormy@gmail.com}}
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This paper investigates a nonlinear differential equation
+with a factorially normalized, Erlang-type forcing term:
+\[
+\frac{dN}{dt}
+=
+G_0\frac{\lambda^m t^{m-1}e^{-\lambda t}}{(m-1)!}
+-k_1N-\beta N^2.
+\]
+Here, \(N(t)\) represents a time-dependent state variable,
+the first term describes a transient external input, and
+the remaining terms represent linear and quadratic losses.
+We establish existence, uniqueness, nonnegativity, and
+global boundedness of solutions under natural assumptions
+on the parameters and initial condition. We derive an
+integral representation, obtain an explicit solution in
+the absence of quadratic loss, and establish bounds for
+the accumulated input and the resulting state variable.
+We also examine the long-time behavior of the model and
+derive a finite-time approximation framework. The results
+provide a mathematical foundation for studying systems
+subject to a transient input and nonlinear dissipation.
+\end{abstract}
+
+\noindent\textbf{Keywords:} nonlinear differential equation;
+Erlang distribution; factorial normalization; existence
+and uniqueness; bounded solutions; nonlinear dissipation.
+
+\medskip
+\noindent\textbf{2020 Mathematics Subject Classification:}
+Primary 34A12; Secondary 34A34, 34C11.
+
+\section{Introduction}
+
+Differential equations provide a general framework for
+describing systems whose states change in response to
+external inputs and internal loss mechanisms. In many
+applications, an external input is concentrated over a
+finite period rather than remaining constant indefinitely.
+The subsequent evolution may depend on both linear and
+nonlinear dissipation.
+
+This paper considers the initial-value problem
+\begin{equation}
+\frac{dN}{dt}
+=
+G_0\frac{\lambda^m t^{m-1}e^{-\lambda t}}{(m-1)!}
+-k_1N-\beta N^2,
+\qquad t\geq 0,
+\label{eq:model}
+\end{equation}
+subject to
+\begin{equation}
+N(0)=N_0.
+\label{eq:initial-condition}
+\end{equation}
+
+The forcing term has the form of a scaled Erlang probability
+density. The parameters determine the amplitude and timing
+of the input, while the terms proportional to \(N\) and
+\(N^2\) describe linear and quadratic losses, respectively.
+
+The main questions are whether the initial-value problem
+has a unique solution, whether nonnegative initial data
+remain nonnegative, whether solutions can grow without
+bound, and how the model behaves over long time intervals.
+We also investigate the special case in which the quadratic
+loss is absent and establish estimates useful for numerical
+approximation.
+
+The analysis uses standard methods from ordinary
+differential equations, including local existence and
+uniqueness, comparison arguments, and integral
+representations; see Coddington and Levinson~\cite{coddington}
+and Teschl~\cite{teschl}.
+
+\section{Definition and Basic Properties}
+
+\subsection{The mathematical model}
+
+\begin{definition}[Factorial-Erlang Forcing Model]
+Let \(m\) be a positive integer and let
+\(G_0\geq 0\), \(\lambda>0\), \(k_1\geq 0\),
+\(\beta\geq 0\), and \(N_0\geq 0\).
+The model is the initial-value problem
+\[
+\begin{cases}
+\displaystyle
+\frac{dN}{dt}
+=
+G_0\frac{\lambda^m t^{m-1}e^{-\lambda t}}{(m-1)!}
+-k_1N-\beta N^2,
+& t\geq 0,\\[1.2em]
+N(0)=N_0.
+\end{cases}
+\]
+\end{definition}
+
+The variables and parameters have the following roles:
+
+\begin{itemize}
+    \item \(N(t)\) is the state variable.
+    \item \(N_0\) is its initial value.
+    \item \(G_0\) controls the total magnitude of the input.
+    \item \(\lambda\) is the rate parameter of the input.
+    \item \(m\) is a positive integer controlling the shape
+    of the forcing profile.
+    \item \(k_1\) is the linear loss coefficient.
+    \item \(\beta\) is the quadratic loss coefficient.
+\end{itemize}
+
+The nonnegative parameter assumptions are appropriate
+when \(N\) represents a population, concentration, or
+other nonnegative quantity subject to losses. Different
+applications may require different parameter assumptions.
+
+For convenience, define the forcing function
+\begin{equation}
+F_m(t)
+=
+G_0\frac{\lambda^m t^{m-1}e^{-\lambda t}}{(m-1)!}.
+\label{eq:forcing}
+\end{equation}
+Equation~\eqref{eq:model} can then be written as
+\begin{equation}
+N'(t)=F_m(t)-k_1N(t)-\beta N(t)^2.
+\label{eq:compact-model}
+\end{equation}
+
+\subsection{Properties of the forcing term}
+
+The forcing function is nonnegative for \(t\geq 0\).
+For \(G_0>0\), it is positive for \(t>0\). Its total
+integral is
+\begin{equation}
+\int_0^\infty F_m(t)\,dt=G_0.
+\label{eq:total-input}
+\end{equation}
+
+Indeed, the substitution \(u=\lambda t\) gives
+\[
+\int_0^\infty F_m(t)\,dt
+=
+\frac{G_0}{(m-1)!}
+\int_0^\infty u^{m-1}e^{-u}\,du.
+\]
+Using the factorial identity
+\[
+\int_0^\infty u^{m-1}e^{-u}\,du=(m-1)!,
+\]
+we obtain Equation~\eqref{eq:total-input}.
+
+More generally, the cumulative input delivered by time
+\(t\) is
+\begin{equation}
+A_m(t)
+=
+\int_0^t F_m(s)\,ds
+=
+G_0\left[
+1-e^{-\lambda t}
+\sum_{j=0}^{m-1}\frac{(\lambda t)^j}{j!}
+\right].
+\label{eq:cumulative-input}
+\end{equation}
+
+This identity follows from the standard integral formula
+for the Erlang density. In particular,
+\[
+0\leq A_m(t)\leq G_0,
+\qquad
+\lim_{t\to\infty}A_m(t)=G_0.
+\]
+
+Thus, the forcing term supplies a finite total input,
+even though the model is defined over the entire
+nonnegative time axis.
+
+\subsection{Interpretation of the loss terms}
+
+The linear loss term is \(-k_1N\). When considered alone,
+it produces exponential decay at rate \(k_1\).
+
+The quadratic loss term is \(-\beta N^2\). For
+\(\beta>0\), this term increases in magnitude quadratically
+with the state variable and can represent density-dependent
+loss or other nonlinear dissipation.
+
+When both coefficients vanish, the model reduces to
+\(N'=F_m(t)\). When the quadratic coefficient vanishes
+but the linear coefficient remains, the equation becomes
+linear and can be solved explicitly. The general case
+with both loss terms present is nonlinear.
+
+\section{Existence and Uniqueness}
+
+\subsection{Local existence and uniqueness}
+
+\begin{theorem}
+For the parameter values specified in the definition,
+the initial-value problem
+\eqref{eq:model}--\eqref{eq:initial-condition}
+has a unique local continuously differentiable solution.
+\end{theorem}
+
+\begin{proof}
+Define
+\[
+f(t,N)=F_m(t)-k_1N-\beta N^2.
+\]
+Since \(m\) is a positive integer and \(\lambda>0\),
+the function \(F_m\) is continuous on \([0,\infty)\).
+Consequently, \(f\) is continuous in both variables.
+
+Furthermore,
+\[
+\frac{\partial f}{\partial N}(t,N)
+=-k_1-2\beta N
+\]
+is continuous for all \(t\geq 0\) and \(N\in\mathbb R\).
+Hence \(f\) is locally Lipschitz continuous in \(N\).
+
+The standard existence and uniqueness theorem for
+ordinary differential equations therefore gives a unique
+local solution through the initial point
+\((0,N_0)\)~\cite{coddington,teschl}.
+\end{proof}
+
+Local existence does not, by itself, guarantee that a
+solution exists for every \(t\geq 0\). We establish that
+stronger conclusion by proving nonnegativity and
+boundedness.
+
+\subsection{Nonnegativity of solutions}
+
+\begin{theorem}
+Suppose \(G_0\geq 0\), \(\lambda>0\), \(k_1\geq 0\),
+\(\beta\geq 0\), and \(N_0\geq 0\). Every solution of
+the initial-value problem remains nonnegative throughout
+its interval of existence.
+\end{theorem}
+
+\begin{proof}
+The equation can be written in the form
+\[
+N'(t)+\bigl(k_1+\beta N(t)\bigr)N(t)=F_m(t).
+\]
+
+Multiplying by the integrating factor associated with
+the coefficient \(k_1+\beta N(t)\) gives
+\begin{align}
+N(t)
+={}&N_0
+\exp\left(
+-\int_0^t[k_1+\beta N(u)]\,du
+\right)
+\nonumber\\
+&+
+\int_0^t F_m(s)
+\exp\left(
+-\int_s^t[k_1+\beta N(u)]\,du
+\right)ds.
+\label{eq:positive-representation}
+\end{align}
+
+This identity holds along any existing solution. The
+exponential factors are positive, and \(F_m(s)\geq 0\).
+Since \(N_0\geq 0\), both terms on the right-hand side
+are nonnegative. Therefore \(N(t)\geq 0\).
+\end{proof}
+
+The representation in Equation~\eqref{eq:positive-representation}
+is an identity along the solution, rather than an explicit
+closed-form solution, because the exponent still depends
+on \(N\).
+
+\subsection{Global existence and boundedness}
+
+\begin{theorem}
+Under the same parameter assumptions, the unique solution
+exists for every \(t\geq 0\) and satisfies
+\begin{equation}
+0\leq N(t)\leq N_0+A_m(t)\leq N_0+G_0.
+\label{eq:global-bound}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Nonnegativity has already been established. Therefore,
+the loss terms satisfy
+\[
+-k_1N(t)-\beta N(t)^2\leq 0.
+\]
+It follows that
+\[
+N'(t)\leq F_m(t).
+\]
+
+Integrating from \(0\) to \(t\) gives
+\[
+N(t)-N_0\leq\int_0^t F_m(s)\,ds=A_m(t).
+\]
+Equation~\eqref{eq:cumulative-input} yields
+\[
+N(t)\leq N_0+A_m(t)\leq N_0+G_0.
+\]
+
+Thus the solution remains in the bounded interval
+\([0,N_0+G_0]\). The right-hand side of the differential
+equation is continuous in time and locally Lipschitz
+continuous in the state variable. Since the solution
+cannot become unbounded in finite time, the continuation
+theorem for ordinary differential equations implies
+that it extends to every \(t\geq 0\).
+\end{proof}
+
+This theorem establishes global existence without
+requiring an explicit formula for the nonlinear solution.
+
+\section{Integral Representation and Special Cases}
+
+\subsection{An integral identity}
+
+Integrating Equation~\eqref{eq:compact-model} from
+\(0\) to \(t\) gives the identity
+\begin{equation}
+\begin{aligned}
+N(t)
+={}&N_0+A_m(t)
+-k_1\int_0^t N(s)\,ds\\
+&-\beta\int_0^t N(s)^2\,ds.
+\end{aligned}
+\label{eq:integral-identity}
+\end{equation}
+
+This representation separates the accumulated input
+from the cumulative linear and quadratic losses. It also
+provides a useful starting point for numerical methods
+and analytical estimates.
+
+The identity is exact, but it is not an explicit solution
+in the general nonlinear case because the integrals
+depend on the unknown state \(N\).
+
+\subsection{The case of no quadratic loss}
+
+When \(\beta=0\), Equation~\eqref{eq:model} becomes
+\[
+N'(t)+k_1N(t)=F_m(t).
+\]
+
+Multiplication by \(e^{k_1t}\) and integration yield
+the explicit solution
+\begin{equation}
+N(t)
+=
+N_0e^{-k_1t}
++
+\int_0^t e^{-k_1(t-s)}F_m(s)\,ds.
+\label{eq:linear-solution}
+\end{equation}
+
+Substituting the forcing function gives
+\begin{align}
+N(t)
+={}&N_0e^{-k_1t}
+\nonumber\\
+&+
+\frac{G_0\lambda^m e^{-k_1t}}{(m-1)!}
+\int_0^t
+s^{m-1}e^{-(\lambda-k_1)s}\,ds.
+\label{eq:linear-solution-expanded}
+\end{align}
+
+This formula remains valid when \(k_1=\lambda\).
+In that case, the integral simplifies to
+\[
+\int_0^t s^{m-1}\,ds=\frac{t^m}{m},
+\]
+so that
+\begin{equation}
+N(t)
+=
+N_0e^{-\lambda t}
++
+\frac{G_0\lambda^m t^m e^{-\lambda t}}{m!}.
+\label{eq:resonant-linear-solution}
+\end{equation}
+
+When \(k_1\neq\lambda\), the integral in
+Equation~\eqref{eq:linear-solution-expanded} can also
+be expressed using the incomplete gamma function.
+
+\subsection{The case of no losses}
+
+If \(k_1=\beta=0\), then
+\[
+N'(t)=F_m(t).
+\]
+Using the initial condition and integrating directly,
+we obtain
+\begin{equation}
+N(t)
+=
+N_0+
+G_0\left[
+1-e^{-\lambda t}
+\sum_{j=0}^{m-1}\frac{(\lambda t)^j}{j!}
+\right].
+\label{eq:no-loss-solution}
+\end{equation}
+
+In particular,
+\[
+\lim_{t\to\infty}N(t)=N_0+G_0.
+\]
+This limiting value represents the initial state plus
+the total accumulated input when no loss mechanism
+is present.
+
+\subsection{The general nonlinear case}
+
+For \(\beta>0\), the quadratic term makes the equation
+nonlinear. The substitution
+\[
+N(t)=\frac{u'(t)}{\beta u(t)}
+\]
+transforms the equation, wherever the substitution is
+defined, into
+\begin{equation}
+u''(t)+k_1u'(t)-\beta F_m(t)u(t)=0.
+\label{eq:linearized-second-order}
+\end{equation}
+
+To verify this transformation, differentiation gives
+\[
+N'(t)
+=
+\frac{u''(t)}{\beta u(t)}
+-\beta N(t)^2.
+\]
+Substitution into Equation~\eqref{eq:model} cancels
+the quadratic terms and yields
+Equation~\eqref{eq:linearized-second-order}.
+
+For \(\beta>0\), the initial conditions corresponding
+to \(N(0)=N_0\) can be chosen as
+\[
+u(0)=1,\qquad u'(0)=\beta N_0.
+\]
+The resulting solution must be considered on intervals
+where \(u(t)\neq 0\).
+
+This transformation provides an alternative linear
+second-order formulation, although it does not generally
+produce an elementary closed-form expression for \(N(t)\).
+
+\section{Long-Time Behavior}
+
+\subsection{Decay of the forcing term}
+
+For every fixed positive integer \(m\),
+\[
+\lim_{t\to\infty}F_m(t)=0.
+\]
+Indeed, exponential decay dominates the polynomial
+factor \(t^{m-1}\).
+
+Moreover, the total input is finite:
+\[
+\int_0^\infty F_m(t)\,dt=G_0.
+\]
+Thus, the external forcing becomes small at late times,
+and its remaining cumulative contribution tends to zero.
+
+\subsection{Decay when linear loss is present}
+
+\begin{theorem}
+If \(k_1>0\), then every solution satisfying the
+parameter assumptions in Section~2 obeys
+\[
+\lim_{t\to\infty}N(t)=0.
+\]
+\end{theorem}
+
+\begin{proof}
+Because \(N(t)\geq 0\) and \(\beta\geq 0\),
+\[
+N'(t)+k_1N(t)
+=F_m(t)-\beta N(t)^2
+\leq F_m(t).
+\]
+Multiplying by \(e^{k_1t}\) and integrating yields
+\[
+N(t)\leq
+N_0e^{-k_1t}
++\int_0^t e^{-k_1(t-s)}F_m(s)\,ds.
+\]
+
+The first term tends to zero because \(k_1>0\).
+For the integral, fix \(T>0\) and split it as
+\[
+\int_0^t e^{-k_1(t-s)}F_m(s)\,ds
+=
+\int_0^T e^{-k_1(t-s)}F_m(s)\,ds
++
+\int_T^t e^{-k_1(t-s)}F_m(s)\,ds
+\]
+for \(t\geq T\).
+
+The first integral tends to zero as \(t\to\infty\),
+since its interval is fixed. The second is bounded by
+\[
+\int_T^\infty F_m(s)\,ds,
+\]
+which can be made arbitrarily small by taking \(T\)
+sufficiently large. Therefore the entire integral
+tends to zero, proving the result.
+\end{proof}
+
+\subsection{Decay when only quadratic loss is present}
+
+\begin{theorem}
+Suppose \(k_1=0\), \(\beta>0\), and the other parameter
+assumptions remain in force. Then
+\[
+\lim_{t\to\infty}N(t)=0.
+\]
+\end{theorem}
+
+\begin{proof}
+The equation becomes
+\[
+N'(t)=F_m(t)-\beta N(t)^2.
+\]
+Since \(N(t)\geq 0\), integration gives
+\[
+\beta\int_0^t N(s)^2\,ds
+=
+N_0+A_m(t)-N(t)
+\leq N_0+G_0.
+\]
+Consequently,
+\[
+\int_0^\infty N(s)^2\,ds
+\leq \frac{N_0+G_0}{\beta}<\infty.
+\]
+
+Also,
+\[
+|N'(t)|\leq F_m(t)+\beta(N_0+G_0)^2,
+\]
+so \(N'\) is bounded. Hence \(N\) is uniformly
+continuous on \([0,\infty)\).
+
+A nonnegative, uniformly continuous function whose
+square is integrable on \([0,\infty)\) must tend to
+zero. Otherwise, there would be a positive number
+\(\varepsilon\) and a sequence of arbitrarily late
+times at which \(N(t)\geq\varepsilon\). Uniform
+continuity would then force intervals of uniformly
+positive length on which \(N\geq\varepsilon/2\),
+contradicting square integrability. Therefore
+\(N(t)\to 0\).
+\end{proof}
+
+Together, these results show that either form of
+nonnegative dissipation is sufficient to drive the
+state toward zero after the transient input has passed.
+If both loss coefficients vanish, the limiting value
+instead equals \(N_0+G_0\), as shown in
+Equation~\eqref{eq:no-loss-solution}.
+
+\section{Numerical Approximation}
+
+\subsection{A finite-time integral estimate}
+
+Equation~\eqref{eq:integral-identity} gives
+\[
+N(t)=N_0+A_m(t)
+-k_1\int_0^t N(s)\,ds
+-\beta\int_0^t N(s)^2\,ds.
+\]
+Since all terms are nonnegative except for the
+explicit subtraction signs, it follows that
+\[
+0\leq N(t)\leq N_0+A_m(t).
+\]
+
+This bound can be used to check numerical calculations.
+A computed trajectory that becomes negative or exceeds
+\(N_0+A_m(t)\) under the stated parameter assumptions
+is inconsistent with the analytical results.
+
+\subsection{An Euler approximation}
+
+For a step size \(h>0\), define \(t_j=jh\) and
+approximate the solution using the explicit Euler method:
+\begin{equation}
+\begin{aligned}
+N_{j+1}
+={}&N_j+h\Bigg[
+G_0\frac{\lambda^m t_j^{m-1}e^{-\lambda t_j}}
+{(m-1)!}\\
+&\hspace{2.4em}
+-k_1N_j-\beta N_j^2
+\Bigg].
+\end{aligned}
+\label{eq:euler}
+\end{equation}
+
+The initial approximation is \(N_0\). For sufficiently
+small step sizes on a fixed finite interval, the explicit
+Euler method converges to the exact solution under the
+standard regularity assumptions for this differential
+equation.
+
+However, the explicit Euler method does not automatically
+preserve nonnegativity for arbitrary step sizes. Numerical
+implementations should therefore use an appropriate step
+size or a numerical method designed to preserve the
+relevant qualitative properties.
+
+\subsection{Local truncation error}
+
+Let
+\[
+f(t,N)=F_m(t)-k_1N-\beta N^2.
+\]
+For a sufficiently smooth exact solution, Taylor's
+theorem gives
+\[
+N(t+h)=N(t)+hN'(t)+\frac{h^2}{2}N''(\xi)
+\]
+for some \(\xi\in(t,t+h)\).
+
+Since \(N'(t)=f(t,N(t))\), the Euler update differs
+from the exact solution by a local truncation error
+of order \(O(h^2)\), provided the relevant second
+derivative is bounded on the interval under
+consideration. The resulting global error on a fixed
+finite interval is of order \(O(h)\).
+
+These statements concern finite-time numerical
+approximation; they do not assert uniform accuracy over
+the entire infinite time axis.
+
+\section{Possible Generalizations}
+
+The forcing term can be modified by changing its amplitude,
+rate parameter, or shape. For example, one may consider
+\begin{equation}
+N'(t)
+=
+G_0\frac{\lambda^m t^{m-1}e^{-\lambda t}}{(m-1)!}
+-k_1N(t)-\beta N(t)^p,
+\label{eq:generalized-model}
+\end{equation}
+where \(p>1\).
+
+For nonnegative solutions and nonnegative loss
+coefficients, the same basic upper bound
+\[
+N(t)\leq N_0+A_m(t)\leq N_0+G_0
+\]
+continues to hold, provided the generalized problem
+has the required existence and uniqueness properties.
+For real \(p\) that is not an integer, the expression
+\(N^p\) is naturally defined here on \(N\geq 0\).
+
+Another variation replaces the single Erlang-type input
+with a finite sum of such inputs:
+\[
+F(t)=
+\sum_{r=1}^{q}
+G_r\frac{\lambda_r^{m_r}t^{m_r-1}
+e^{-\lambda_r t}}{(m_r-1)!},
+\]
+where \(q\) and the \(m_r\) are positive integers,
+\(G_r\geq 0\), and \(\lambda_r>0\).
+
+In this setting,
+\[
+\int_0^\infty F(t)\,dt=\sum_{r=1}^{q}G_r.
+\]
+The boundedness argument then gives
+\[
+0\leq N(t)\leq N_0+\sum_{r=1}^{q}G_r
+\]
+for nonnegative loss coefficients and nonnegative
+initial data.
+
+These extensions allow the model to represent several
+distinct transient inputs or different forms of
+nonlinear dissipation. Their practical usefulness
+depends on the system being modeled and on the
+interpretation of the parameters.
+
+\section{Conclusion}
+
+This paper examines a nonlinear differential equation
+with a factorially normalized, Erlang-type forcing term
+and linear and quadratic loss mechanisms. Under natural
+nonnegativity assumptions, the initial-value problem
+has a unique global solution. The solution remains
+nonnegative and satisfies the bound
+\[
+0\leq N(t)\leq N_0+G_0.
+\]
+
+The cumulative input has an explicit expression, and
+the model admits an explicit solution when quadratic
+loss is absent. In the general nonlinear case, an
+integral representation and a transformation to a
+second-order linear equation provide alternative ways
+to analyze the dynamics.
+
+The long-time results show that the state tends to zero
+when either linear or quadratic dissipation is present.
+In the absence of both loss mechanisms, the state
+approaches the initial value plus the total input.
+The analytical bounds also provide consistency checks
+for numerical approximations.
+
+Further work could investigate parameter estimation,
+sensitivity to the shape parameter \(m\), improved
+numerical schemes, and applications to specific physical
+or biological systems. Such investigations would help
+determine when this model is appropriate and which
+features of its solutions are most relevant in practice.
+
+\section{Acknowledgments}
+
+The author thanks the teachers and mentors who encouraged
+the pursuit of mathematical exploration.
+
+\begin{thebibliography}{9}
+
+\bibitem{coddington}
+E. A. Coddington and N. Levinson,
+\emph{Theory of Ordinary Differential Equations},
+McGraw-Hill, New York, 1955.
+
+\bibitem{teschl}
+G. Teschl,
+\emph{Ordinary Differential Equations and Dynamical Systems},
+Graduate Studies in Mathematics, vol. 140,
+American Mathematical Society, Providence, RI, 2012.
+
+\end{thebibliography}
+
+\end{document}
